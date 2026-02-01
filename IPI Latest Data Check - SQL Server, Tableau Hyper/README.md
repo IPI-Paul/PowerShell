@@ -17,7 +17,7 @@ $Servers = @{
 $Database = 'tempdb'
 `
 
-Then head over to [https://tableau.github.io/hyper-db/docs/releases#download](https://tableau.github.io/hyper-db/docs/releases#download) and download the C++ Project to get the hyperd.exe file at [https://downloads.tableau.com/tssoftware/tableauhyperapi-cxx-windows-x86_64-release-main.0.0.24081.rd9c4b45a.zip](https://downloads.tableau.com/tssoftware/tableauhyperapi-cxx-windows-x86_64-release-main.0.0.24081.rd9c4b45a.zip). Place the hyperd.exe in the API/hyper folder.
+Then head over to [https://tableau.github.io/hyper-db/docs/releases#download](https://tableau.github.io/hyper-db/docs/releases#download) and download the C++ Project to get the hyperd.exe file at [https://downloads.tableau.com/tssoftware/tableauhyperapi-cxx-windows-x86_64-release-main.0.0.24081.rd9c4b45a.zip](https://downloads.tableau.com/tssoftware/tableauhyperapi-cxx-windows-x86_64-release-main.0.0.24081.rd9c4b45a.zip). Place the hyperd.exe in the API/hyper folder and the tableauhyperapi.dll and tableauhyperapi.pdb files in the API folder.
 
 ## Adding Scripts
 
@@ -39,4 +39,5 @@ Then head over to [https://tableau.github.io/hyper-db/docs/releases#download](ht
 
 - There is an option to get the link to this repository.
 - Finally you can clear the log view.
+
 
