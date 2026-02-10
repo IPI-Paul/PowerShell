@@ -56,5 +56,8 @@ $statusText.Text = "Click and icon to see its index."
 # Set Window icon
 $window.Icon = Get-Shell32Icon 35
 
+# Set Window Top Most
+$window.Topmost = $true
+
 # Show the browser
 $window.ShowDialog()
