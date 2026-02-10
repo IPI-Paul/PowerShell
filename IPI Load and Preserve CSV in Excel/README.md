@@ -15,16 +15,17 @@ So, I tried Google AI and asked it why ChatGPT was unable to achieve this task, 
 - Run it from VS Code, the commandline of PowerShell ISE.
 - Use the browse button to select a CSV file and then choose `Load and Preserve CSV contents in Excel` from the Action dropdown menu.
 
-    ![Image of SQL Query](./Images/Loaded_CSV.png)
+    ![Image of SQL Query](./images/Loaded_CSV.png)
 
 - Wait until the process has completed before working with the Excel file.
 
-    ![Image of SQL Query](./Images/Formatted_Excel_Columns.png)
+    ![Image of SQL Query](./images/Formatted_Excel_Columns.png)
 
 - You can also choose a ZIP file when browsing and when running you will be prompted to select a CSV file within if there is more than one.
 
-    ![Image of SQL Query](./Images/Loading_from_ZIP.png)
+    ![Image of SQL Query](./images/Loading_from_ZIP.png)
 
 - Again, Wait until the process has completed before working with the Excel file.
 
-    ![Image of SQL Query](./Images/Loaded_from_Zip.png)
+    ![Image of SQL Query](./images/Loaded_from_Zip.png)
+
