@@ -183,7 +183,7 @@ $RunFunctions.Add_SelectionChanged({
     if ($this.SelectedIndex -ne 0) {
         if ($this.SelectedIndex -eq 2) {
             Write-Log -Text "Author Repository:" -Color "DarkBlue" -Bold:$true
-            Write-Log -Text "https://github.com/IPI-Paul/PowerShell/tree/main/IPI%20Latest%20Data%20Check%20-%20SQL%20Server%2C%20Tableau%20Hyper" `
+            Write-Log -Text "https://github.com/IPI-Paul/PowerShell/tree/main/IPI%20Load%20and%20Preserve%20CSV%20in%20Excel" `
                 -Color "DarkBlue"
             $this.SelectedIndex = 0
             return
@@ -291,4 +291,5 @@ $Window.Icon = Get-Shell32Icon 146
 $Window.Topmost = $true
 
 # Show Window
+
 $Window.ShowDialog() | Out-Null
