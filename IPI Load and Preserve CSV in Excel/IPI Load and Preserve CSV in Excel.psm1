@@ -125,6 +125,7 @@ function Get-Headers {
     $fsIn   = [System.IO.File]::OpenRead($Script:FilePath)
 
     $Headers = (Invoke-CheckHeaders -Path $Script:FilePath)
+    $Global:Headers = $Headers
     $colCount = $Headers.Count
 
     $hasSpace = $false
@@ -343,6 +344,7 @@ function Get-SpecialColumns {
         Headers         = $Headers
         schemaPath      = $schemaPath
         rowCount        = $rowCount
+        colCount        = $colCount
     }
 }
 
@@ -468,6 +470,7 @@ function Update-FormatAndData {
         $ws1,
         $schemaPath,
         $rowCount,
+        $colCount,
         $Log
     )
     
@@ -489,8 +492,13 @@ function Update-FormatAndData {
     # Optional: format columns as Text for special indexes
     # Assume $SpecialIndexes contains 0-based column numbers
     foreach ($idx in $SpecialIndexes) {
-        $col = $idx + 1  # Exce columns are 1-based
+        $col = $idx + 1  # Excel columns are 1-based
         $ws1.Range($ws1.Cells.Item(1, $col), $ws1.Cells.Item($rowCount, $col)).NumberFormat = "@"
+    }
+
+    # # Put back original headers
+    for ($i = 0; $i -lt $colCount; $i++) {
+        $ws1.Cells.Item(1, $i + 1).Value2 = $Global:Headers[$i]
     }
 
     # Copy all rows into Sheet1 starting at A2 and autofit
@@ -550,4 +558,5 @@ function Update-LogSpecialHeaders {
         $value = $specialHeaders[$key]
         & $LogCallback "$($key): $value" "Black"
     }
+
 }
