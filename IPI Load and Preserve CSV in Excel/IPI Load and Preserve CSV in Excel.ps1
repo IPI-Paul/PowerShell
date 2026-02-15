@@ -255,7 +255,7 @@ $RunFunctions.Add_SelectionChanged({
             $startTime1 = Get-Date 
             & $LogCallback "Formatting columns with Long Digit/Leading Zero numbers and adding data!" "DarkBlue" -Bold:$true
             Update-FormatAndData -Excel $Result.Excel -SpecialIndexes $Result.SpecialIndexes -Headers $Result.Headers -ws1 $Result.ws1 `
-                -schemaPath $Result.schemaPath -rowCount $Result.rowCount -Log $LogCallback
+                -schemaPath $Result.schemaPath -rowCount $Result.rowCount -colCount $Result.colCount -Log $LogCallback
 
             $durationStr = Get-Duration $startTime1
             & $LogCallback "Duration to format Long Digit/Leading Zero number columns: $durationStr" "DarkRed" -Bold:$true
@@ -293,3 +293,4 @@ $Window.Topmost = $true
 # Show Window
 
 $Window.ShowDialog() | Out-Null
+
