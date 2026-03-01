@@ -21,6 +21,27 @@ Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName WindowsBase
 
+function Convert-WpfBitmapToIcon {
+    param {
+        [System.Windows.Media.Imaging.BitmapSource]$bitmapSource
+    }
+
+    # Save WPF bitmap to a memory stream as PNG
+    $ms         = New-Object System.IO.MemoryStream
+    $encoder    = New-Object System.Windows.Media.Imaging.PngBitmapEncoder
+    $encoder.Frames.Add([System.Windows.Media.Imaging.BitmapFrame]::Create($bitmapSource))
+    $encoder.Save($ms)
+
+    # Create Ststem.Drawing.Icon from the PNG stream
+    $bitmap = [System.Drawing.Bitmap]::FromStream($ms)
+
+    # Convert Bitmap to Icon
+    $iconHandle = $bitmap.GetHicon()
+    $icon       = [System.Drawing.Icon]::FromHandle($iconHandle)
+
+    return $icon
+}
+
 # Get icon as image source
 function Get-Shell32Icon {
     param (
@@ -49,4 +70,5 @@ function Get-Shell32Icon {
     return $bmp
 }
 
+Export-ModuleMember -Function Convert-WpfBitmapToIcon
 Export-ModuleMember -Function Get-Shell32Icon
