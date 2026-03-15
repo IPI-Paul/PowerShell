@@ -22,9 +22,9 @@ Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName WindowsBase
 
 function Convert-WpfBitmapToIcon {
-    param {
+    param (
         [System.Windows.Media.Imaging.BitmapSource]$bitmapSource
-    }
+    )
 
     # Save WPF bitmap to a memory stream as PNG
     $ms         = New-Object System.IO.MemoryStream
