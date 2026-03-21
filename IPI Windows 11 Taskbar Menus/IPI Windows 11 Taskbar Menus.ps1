@@ -1,7 +1,8 @@
 param (
     [string]$fPath, 
     [string]$Filter = 1,
-    [int]$Icon
+    [int]$Icon,
+    [int]$Close = 1
     )
 
 Add-Type -AssemblyName System.Windows.Forms
@@ -282,12 +283,12 @@ $listbox.Add_Click({
                             Start-Process -FilePath "$($shortcutObject.TargetPath -replace ' \(x86\)', '')"
                         }
                     }
-                    $form.Close()
+                    if ($Close -eq 1) { $form.Close() }
                 }
             } else {
                 $toolTipOn = $false 
                 Start-Process -FilePath "$shortcutPath"
-                $form.Close()
+                if ($Close -eq 1) { $form.Close() }
             }
         }
     } else {
