@@ -18,6 +18,9 @@ function Get-CheckPath {
         [string]$fPath,
         $fName = $null
     )
+
+    if ($fPath -match "%") { $fPath = (($fPath -replace "%userprofile%", $env:USERPROFILE) -replace "%username%", $env:USERNAME) }
+    
     if ("$fPath" -eq "") {
         # Set folder path containing shortcuts
         $shortcutFolder = [System.Windows.Forms.FolderBrowserDialog]::new()
@@ -27,19 +30,19 @@ function Get-CheckPath {
             [System.Windows.Forms.MessageBox]::Show("Selection Cancelled.", "Info", "OK", "Information")
             exit
         }
-    } elseif ("$fPath" -eq "Desktop") {
+    } elseif ("$fPath" -eq "Desktop" -or (Split-Path $fPath -Leaf) -eq "Desktop") {
         $folderPaths = @(
             [Environment]::GetFolderPath("Desktop"),
             [Environment]::GetFolderPath("CommonDesktopDirectory"),
             "C:\Users\$($env:USERNAME)\Desktop"
         ) | Select-Object -Unique
-    } elseif ("$fPath" -eq "Applications") {
+    } elseif ("$fPath" -eq "Applications" -or $fPath -eq "shell:AppsFolder") {
         # $appsFolder = $shell.NameSpace(42)
         # $appsFolder = $shell.NameSpace('shell:AppsFolder')
         # $appsFolder = $shell.NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}')
         $folderPaths = @("shell:AppsFolder")
         $fName = "Applications"
-    } elseif ("$fPath" -eq "Control Panel") {
+    } elseif ("$fPath" -eq "Control Panel" -or $fPath -eq "shell:ControlPanelFolder") {
         # The GUID below is the unique identifier for the Applications folder
         # $appsFolder = $shell.NameSpace('shell:::{26ee0668-a00a-44d7-9371-beb064c98683}') by Category only
         # $appsFolder = $shell.NameSpace('shell:ControlPanelFolder')
@@ -236,7 +239,9 @@ $listbox.Add_Click({
         $selected = $listbox.SelectedItem
     }
     if ($selected) {
-        $shortcutPath = ($Script:shortcuts | Where-Object { $_.Name -eq $selected -or $_.FullName -eq $selected } | Select-Object FullName).FullName
+        $shortcutPath = ($Script:shortcuts | Where-Object { 
+            $_.Name -eq $selected -or $_.Name -eq ($selected -replace "\.lnk", "") -or $_.FullName -eq $selected 
+        } | Select-Object FullName).FullName
         Write-Host $selected, $shortcutPath
         
         if ($shortcutPath -and -not ($shortcutPath -match "shell:")) { $item = Get-Item -LiteralPath $shortcutPath }
