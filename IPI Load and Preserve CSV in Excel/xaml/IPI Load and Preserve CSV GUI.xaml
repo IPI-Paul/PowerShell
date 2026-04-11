@@ -1,0 +1,70 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Title="Load and Preserve CSV in Excel"
+        Height="500"
+        Width="900"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- File Selection -->
+        <Label Grid.Row="0"
+            Grid.Column="0"
+            Content="Selected File:"
+            VerticalAlignment="Center"
+            Margin="2"/>
+        
+        <TextBox Name="FilePathBox"
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,2,0,2"/>
+
+        <Button Name="BrowseButton"
+            Grid.Row="0"
+            Grid.Column="4"
+            Content="..."
+            Width="30"
+            Margin="2"
+            HorizontalAlignment="Left"/>
+
+        <!-- Action Combobox -->
+        <ComboBox Name="RunFunctions"
+            Grid.Row="1"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Center"
+            Margin="0,2,0,2"/>
+
+        <!-- Status -->
+        <Label Name="StatusLabel"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Content="Status: Idle"
+            FontWeight="Bold"
+            Margin="2"/>
+
+        <!-- Log Output -->
+        <RichTextBox Name="LogBox"
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            Margin="2"
+            IsReadOnly="True"
+            IsEnabled="True"
+            VerticalScrollBarVisibility="Auto"/>
+    </Grid>
+</Window>
