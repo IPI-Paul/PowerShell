@@ -15,17 +15,26 @@ So, I tried Google AI and asked it why ChatGPT was unable to achieve this task, 
 - Run it from VS Code, the commandline of PowerShell ISE.
 - Use the browse button to select a CSV file and then choose `Load and Preserve CSV contents in Excel` from the Action dropdown menu.
 
-    ![Image of SQL Query](./images/Loaded_CSV.png)
+    ![Image of loaded CSV file and functions menu.](./Images/Loaded_CSV.png)
 
 - Wait until the process has completed before working with the Excel file.
 
-    ![Image of SQL Query](./images/Formatted_Excel_Columns.png)
+    ![Image of Excel output and preserved columns.](./Images/Formatted_Excel_Columns.png)
 
 - You can also choose a ZIP file when browsing and when running you will be prompted to select a CSV file within if there is more than one.
 
-    ![Image of SQL Query](./images/Loading_from_ZIP.png)
+    ![Image of ZIP file content selection.](./Images/Loading_from_ZIP.png)
 
 - Again, Wait until the process has completed before working with the Excel file.
 
-    ![Image of SQL Query](./images/Loaded_from_Zip.png)
+    ![Image of ZIP file loaded csv log.](./Images/Loaded_from_Zip.png)
 
+- To load csv files from web sites, enter the web site base url to search from and run the `Load and Preserve CSV contents in Excel`. You can search from 0 to 5 levels deep by changing the selection in the dropdown menu to the right of the results dropdown menu. The list of csv and zip files will populate the results dropdown menu to the right of the file name filter.
+
+    ![Image of Web Search.](./Images/Found_in_web_search.png)
+
+- Use +/plus signs in the filter by text box to filter files by file names matching the entries. Once the drop down menu has been populated, select the file you want to open in excel and run the `Load and Preserve CSV contents in Excel` function again. This will download the selected file to your temp folder and load it from there, deleting it once complete.
+
+    ![Image of selected web search results file loaded.](./Images/Loaded_web_search_csv.png)
+
+- You can also choose to download the selected file from the web search or download all files displayed in the results dropdown menu. For this, you will need to enter the path to the folder location you want the files saved in or click the save to folder button next to the text box and select the folder.
