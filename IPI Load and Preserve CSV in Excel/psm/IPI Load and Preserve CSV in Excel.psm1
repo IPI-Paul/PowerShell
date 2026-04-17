@@ -280,9 +280,14 @@ function Get-SpecialColumns {
 
     # Date regex patterns (very forgiving)
     $datePatterns = @(
-        '^\d{4}[-/\.]\d{1,2}[-/\.]\d{1,2}$', # 2024-12-31, 2024/12/31, 2024.12.31
+        '^\d{4}[/\.]\d{1,2}[/\.]\d{1,2}$', # 2024/12/31, 2024.12.31
         '^\d{1,2}[-/\.]\d{1,2}[-/\.]\d{4}$', # 12/31/2024, 31.12.2024, etc.
         '^\d{1,2}[-/\.]\d{1,2}[-/\.]\d{2}$'  # 12/31/24
+    )
+
+    # Date patterns ADODB unable to process
+    $dateTexts = @(
+        '^\d{4}-\d{1,2}-\d{1,2}$' # 2024-12-31
     )
 
     # Decimal number patters
@@ -311,6 +316,7 @@ function Get-SpecialColumns {
             $isLongNumber   = $v -match '^\d{11,}$'
             $isShortNumber  = $v -match '^\d{1,10}$' -and -not $isLeadingZero
 
+            #  --- Date tests ---
             $isDate = $false
             foreach ($p in $datePatterns) {
                 if ($v -match $p) { $isDate = $true; break }
@@ -320,6 +326,11 @@ function Get-SpecialColumns {
             $isDecimal = $false
             foreach ($p in $decimalPatterns) {
                 if ($v -match $p) { $isDecimal = $true; break }
+            }
+
+            $isDateText = $false
+            foreach ($p in $dateTexts) {
+                if ($v -match $p) { $isDateText = $true; break }
             }
 
             # --- Determine ACE type ---
