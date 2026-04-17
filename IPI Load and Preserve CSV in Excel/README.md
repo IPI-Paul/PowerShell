@@ -39,7 +39,7 @@ So, I tried Google AI and asked it why ChatGPT was unable to achieve this task, 
 
 - You can also choose to download the selected file from the web search or download all files displayed in the results dropdown menu. For this, you will need to enter the path to the folder location you want the files saved in or click the save to folder button next to the text box and select the folder.
 - I have also added the ability to add in post processing actions. This allows the user to build custom scripts that run after the CSV has been loaded into Excel in its preserved state.
-- Any folder in the **actions** folder is picked up by the main window and listed in the combo box to the left of the functions caller combo box. There is also a **shared** that all the post process actions can use to shared reusable scripts and data sources.
+- Any folder in the **actions** folder is picked up by the main window and listed in the combo box to the left of the functions caller combo box. There is also a **shared** folder that all the post process actions can use to shared reusable scripts and data sources.
 
     ![Image of post process actions and shared folders.](./images/Post_Process_Actions_Folders.png)
 
