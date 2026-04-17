@@ -17,6 +17,7 @@ function Get-ScriptPaths {
         MainWindow      = (Get-LiteralPath "..\xaml\IPI Load and Preserve CSV GUI.xaml")
         ZipWindow       = (Get-LiteralPath "..\xaml\IPI ZIP CSV Picker GUI.xaml")
         Downloads       = (New-Object -ComObject Shell.Application).Namespace('shell:Downloads').Self.Path
+        Actions         = (Get-LiteralPath "..\actions")
     }
 }
 
