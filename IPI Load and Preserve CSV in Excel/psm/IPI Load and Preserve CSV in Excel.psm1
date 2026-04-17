@@ -228,11 +228,11 @@ function Get-SpecialColumns {
 
     $wb         = $Excel.Workbooks.Add()
     $ws1        = $wb.Sheets.Item(1)
-    $ws1.Name   = "Sheet1"
+    $ws1.Name   = "Data"
 
     # Add second sheet for filtered data
     $ws2            = $wb.Sheets.Add()
-    $ws2.Name       = "Sheet2"
+    $ws2.Name       = "Identify"
 
     # Write headers to Sheet1
     for ($i = 0; $i -lt $colCount; $i++) {
@@ -491,7 +491,8 @@ function Update-FormatAndData {
         $schemaPath,
         $rowCount,
         $colCount,
-        $Log
+        $Log,
+        $ActionsIdx
     )
     
     # Get Excel calculation type
@@ -538,10 +539,12 @@ function Update-FormatAndData {
     # Remove the PowerShell variables
     Remove-Variable rs, conn
 
-    # For Excel, do not vall Quit(), just release the reference
-    if ($null -ne $Excel) { [System.Runtime.InteropServices.Marshal]::ReleaseComObject($Excel) | Out-Null }
-    Remove-Variable Excel
-
+    if ($ActionsIdx) {
+        # For Excel, do not vall Quit(), just release the reference
+        if ($null -ne $Excel) { [System.Runtime.InteropServices.Marshal]::ReleaseComObject($Excel) | Out-Null }
+        Remove-Variable Excel
+    }
+    
     # Remove temp file if it exists
     if ($Global:Temp -and (Test-Path $Script:FilePath)) {
         & $Log "Deleting temporary file: $($Script:FilePath)" "Brown" -Italic:$true
