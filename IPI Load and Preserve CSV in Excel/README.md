@@ -38,3 +38,19 @@ So, I tried Google AI and asked it why ChatGPT was unable to achieve this task, 
     ![Image of selected web search results file loaded.](./images/Loaded_web_search_csv.png)
 
 - You can also choose to download the selected file from the web search or download all files displayed in the results dropdown menu. For this, you will need to enter the path to the folder location you want the files saved in or click the save to folder button next to the text box and select the folder.
+- I have also added the ability to add in post processing actions. This allows the user to build custom scripts that run after the CSV has been loaded into Excel in its preserved state.
+- Any folder in the **actions** folder is picked up by the main window and listed in the combo box to the left of the functions caller combo box. There is also a **shared** that all the post process actions can use to shared reusable scripts and data sources.
+
+    ![Image of post process actions and shared folders.](./images/Post_Process_Actions_Folders.png)
+
+- The naming convention for post process actions is that the script file (ps1) to be called should prefix the folder name with ***Invoke-*** and then sufix it with ***.ps1*** (e.g. ***Invoke-ActionFolderName.ps1***)
+- Selecting a folder name from this new list before running **Load and Preserve CSV contents in Excel** will enable calling of the script within that folder.
+
+    ![Image of post process actions log.](./images/Post_Process_Actions_Log.png)
+
+- The ***Excel 2D Data Helper.cs*** in the **shared** folder enables fast transfers from the csv files in the shared folder to the open workbook being processed.
+- The ***Date Filter Formula.md*** in the **actions** folder contains the Excel formula extracted in the post process action to render the final output.
+
+    ![Image of post process actions final output.](./images/Post_Process_Actions_Output.png)
+
+- Unfortunately, I only have Office 2021 on my personal computer and the luxury of Office 365 Excel functions is not available to me.
