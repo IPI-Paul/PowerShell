@@ -37,6 +37,7 @@ $Window = [Windows.Markup.XamlReader]::Load($Reader)
 $BrowseButton       = $Window.FindName("BrowseButton")
 $SaveButton         = $Window.FindName("SaveButton")
 $RunFunctions       = $Window.FindName("RunFunctions")
+$RunActions         = $Window.FindName("RunActions")
 $FilePathBox        = $Window.FindName("FilePathBox")
 $SavePathBox        = $Window.FindName("SavePathBox")
 $LogBox             = $Window.FindName("LogBox")
@@ -48,6 +49,7 @@ $FilePathBox.Text   = $CSVFile
 $Script:foundLinks  = @{}
 $Script:Update      = $false
 $LogBox.Document.Blocks.Clear()
+$RunActions.Items.Add("")
 
 Set-WpfWatermark -TextBox $FilePathBox -Text "Enter full path or use the Browse button to locate the file. Website address will return list of files in the dropdown list below."
 Set-WpfWatermark -TextBox $FilterBox -Text "Enter strings to filter web scrape by (separated by +/plus signs) and how many levels deep in the drop down list."
@@ -55,6 +57,10 @@ Set-WpfWatermark -TextBox $SavePathBox -Text "Enter full path or use the Save Fo
 
 $Functions.GetEnumerator() | Sort-Object -Property value | Select-Object -Property key | ForEach-Object {
     $RunFunctions.Items.Add(($_.Key)) | Out-Null
+}
+
+Get-ChildItem $Config.Actions | ForEach-Object {
+    $RunActions.Items.Add($_.Name) | Out-Null
 }
 
 $LogBox.Add_PreviewMouseLeftButtonDown({
@@ -183,7 +189,7 @@ $RunFunctions.Add_SelectionChanged({
         $PowerShell.Runspace = $Runspace
 
         $PowerShell.AddScript({
-            param ($Path, $LogCallback, $StatusCallback, $Icon, $Scraper)
+            param ($Path, $LogCallback, $StatusCallback, $Icon, $Scraper, $Actions)
  
             if (-not ($Path -match "^http") -or -not ("$($Scraper.UrlPath.Trim())" -eq "")) {
                 & $LogCallback "Started processing file:" "DarkBlue" -Bold:$true
@@ -225,7 +231,7 @@ $RunFunctions.Add_SelectionChanged({
                 $startTime1 = Get-Date 
                 & $LogCallback "Formatting columns with Long Digit/Leading Zero numbers and adding data!" "DarkBlue" -Bold:$true
                 Update-FormatAndData -Excel $Result.Excel -SpecialIndexes $Result.SpecialIndexes -Headers $Result.Headers -ws1 $Result.ws1 `
-                    -schemaPath $Result.schemaPath -rowCount $Result.rowCount -colCount $Result.colCount -Log $LogCallback
+                    -schemaPath $Result.schemaPath -rowCount $Result.rowCount -colCount $Result.colCount -Log $LogCallback -ActionsIdx $Actions.Idx
 
                 $durationStr = Get-Duration $startTime1
                 & $LogCallback "Duration to format Long Digit/Leading Zero number columns: $durationStr" "DarkRed" -Bold:$true
@@ -233,6 +239,17 @@ $RunFunctions.Add_SelectionChanged({
                 if (($Path -match "^http") -and -not ($Scraper.UrlPath.Trim() -eq "")) {
                     & $LogCallback "Deleting temporary file: $UrlPath" "Brown" -Italic:$true
                     Remove-Item $UrlPath -Force
+                }
+
+                if ($Actions.Idx) {
+                    $startTime1 = Get-Date 
+
+                    & $LogCallback "Starting post process actions: $($Actions.Name)" "DarkBlue" -Bold:$true
+                    & $LogCallback "$($Config.Actions)\$($Actions.Name)\Invoke-$($Actions.Name).ps1" "Purple"
+                    & "$($Config.Actions)\$($Actions.Name)\Invoke-$($Actions.Name).ps1" -Workbook $Result.ws1.Parent -Log $LogCallback
+
+                    $durationStr = Get-Duration $startTime1
+                    & $LogCallback "Duration to run post process action '$($Actions.Name)': $durationStr" "DarkRed" -Bold:$true
                 }
 
                 & $LogCallback "Processing completed succesfully." "DarkRed" -Bold:$true
@@ -286,6 +303,11 @@ $RunFunctions.Add_SelectionChanged({
                 Scrape  = ${function:Initialize-WebScrape}
                 UrlPath = $Script:foundLinks[$ResultsBox.Text]
                 Links   = $Script:foundLinks
+            }
+        ).AddArgument(
+            [PSCustomObject]@{
+                Idx     = $RunActions.SelectedIndex
+                Name    = $RunActions.SelectedItem
             }
         )
 
