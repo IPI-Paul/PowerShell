@@ -539,11 +539,9 @@ function Update-FormatAndData {
     # Remove the PowerShell variables
     Remove-Variable rs, conn
 
-    if ($ActionsIdx) {
-        # For Excel, do not vall Quit(), just release the reference
-        if ($null -ne $Excel) { [System.Runtime.InteropServices.Marshal]::ReleaseComObject($Excel) | Out-Null }
-        Remove-Variable Excel
-    }
+    # For Excel, do not vall Quit(), just release the reference
+    if ($null -ne $Excel) { [System.Runtime.InteropServices.Marshal]::ReleaseComObject($Excel) | Out-Null }
+    Remove-Variable Excel
     
     # Remove temp file if it exists
     if ($Global:Temp -and (Test-Path $Script:FilePath)) {
